@@ -1,0 +1,39 @@
+# Use the latest 2.1 syntax.
+# See: https://circleci.com/docs/2.1/configuration-reference/
+version: 2.1
+
+# Orbs are reusable packages of CircleCI configuration.
+# For .NET projects, there isn't a dedicated official orb, so we'll use a basic Docker image.
+orbs:
+  # The `cimg/dotnet` convenience image simplifies setting up a .NET environment.
+  # This is a good starting point as it has .NET SDK pre-installed.
+  dotnet: circleci/dotnet@2.0.0
+
+# Define your jobs
+jobs:
+  build_and_test:
+    # Use the Windows executor for .NET Framework, or a Docker image for .NET Core/5+/6+
+    # Here we'll use a Docker image since it's more common for modern .NET development.
+    executor: dotnet/default
+    
+    steps:
+      - checkout
+      
+      - run:
+          name: Restore dependencies
+          command: dotnet restore
+
+      - run:
+          name: Build the application
+          command: dotnet build --configuration Release --no-restore
+
+      - run:
+          name: Run tests
+          command: dotnet test --no-restore --verbosity normal
+
+# Define your workflows
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - build_and_test
