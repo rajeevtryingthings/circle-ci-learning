@@ -4,12 +4,10 @@ version: 2.1
 # Define a job for building and testing the .NET application.
 jobs:
   build_and_test:
-    # Use an official CircleCI Docker convenience image for the .NET SDK.
-    # The `cimg/dotnet` family of images is recommended.
-    # You can specify a version, e.g., `cimg/dotnet:7.0` or `cimg/dotnet:8.0`
-    # Or use a specific version from the repository: https://hub.docker.com/r/cimg/dotnet/tags
+    # Use the official Microsoft .NET SDK image.
+    # For .NET 9, you would use a tag like '9.0-sdk'.
     docker:
-      - image: cimg/dotnet:8.0
+      - image: mcr.microsoft.com/dotnet/sdk:9.0
 
     steps:
       - checkout
